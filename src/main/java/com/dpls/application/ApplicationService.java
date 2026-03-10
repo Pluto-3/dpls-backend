@@ -1,5 +1,7 @@
 package com.dpls.application;
 
+import com.dpls.common.audit.AuditLog;
+import com.dpls.common.audit.AuditLogService;
 import com.dpls.common.enums.ApplicationStatus;
 import com.dpls.permittype.PermitType;
 import com.dpls.permittype.PermitTypeRepository;
@@ -17,6 +19,7 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final PermitTypeRepository permitTypeRepository;
     private final UserService userService;
+    private final AuditLogService auditLogService;
 
     public ApplicationResponse create(ApplicationRequest request) {
         User applicant = userService.getCurrentUser();
@@ -31,6 +34,7 @@ public class ApplicationService {
                 .build();
 
         applicationRepository.save(application);
+        auditLogService.log(application, applicant, "APPLICATION_CREATED", "Application created as DRAFT");
         return mapToResponse(application);
     }
 
@@ -49,6 +53,7 @@ public class ApplicationService {
 
         application.setStatus(ApplicationStatus.SUBMITTED);
         applicationRepository.save(application);
+        auditLogService.log(application, currentUser, "APPLICATION_SUBMITTED", "Application submitted for review");
         return mapToResponse(application);
     }
 
