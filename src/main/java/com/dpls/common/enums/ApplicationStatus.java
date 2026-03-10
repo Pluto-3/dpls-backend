@@ -7,5 +7,6 @@ public enum ApplicationStatus {
     NEEDS_CORRECTION,
     REJECTED,
     APPROVED,
-    PERMIT_ISSUED
+    PERMIT_ISSUED,
+    EXPIRED
 }
