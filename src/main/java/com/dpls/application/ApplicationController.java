@@ -17,7 +17,7 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_APPLICANT')")
+    @PreAuthorize("hasAuthority('ROLE_APPLICANT')")
     public ResponseEntity<ApiResponse<ApplicationResponse>> create(
             @Valid @RequestBody ApplicationRequest request) {
         ApplicationResponse response = applicationService.create(request);
@@ -25,21 +25,21 @@ public class ApplicationController {
     }
 
     @PostMapping("/{id}/submit")
-    @PreAuthorize("hasRole('ROLE_APPLICANT')")
+    @PreAuthorize("hasAuthority('ROLE_APPLICANT')")
     public ResponseEntity<ApiResponse<ApplicationResponse>> submit(@PathVariable Long id) {
         ApplicationResponse response = applicationService.submit(id);
         return ResponseEntity.ok(ApiResponse.success("Application submitted", response));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_APPLICANT')")
+    @PreAuthorize("hasAuthority('ROLE_APPLICANT')")
     public ResponseEntity<ApiResponse<ApplicationResponse>> getById(@PathVariable Long id) {
         ApplicationResponse response = applicationService.getById(id);
         return ResponseEntity.ok(ApiResponse.success("Application retrieved", response));
     }
 
     @GetMapping("/my")
-    @PreAuthorize("hasRole('ROLE_APPLICANT')")
+    @PreAuthorize("hasAuthority('ROLE_APPLICANT')")
     public ResponseEntity<ApiResponse<List<ApplicationResponse>>> getMyApplications() {
         List<ApplicationResponse> response = applicationService.getMyApplications();
         return ResponseEntity.ok(ApiResponse.success("Applications retrieved", response));

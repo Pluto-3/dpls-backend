@@ -17,7 +17,7 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ApiResponse<Department>> create(@RequestBody Map<String, String> body) {
         Department department = departmentService.create(
                 body.get("name"),

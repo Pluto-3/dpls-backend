@@ -39,7 +39,7 @@ public class ReviewController {
     }
 
     @PostMapping("/{id}/reject")
-    @PreAuthorize("hasRole('ROLE_OFFICER')")
+    @PreAuthorize("hasAuthority('ROLE_OFFICER')")
     public ResponseEntity<ApiResponse<ReviewResponse>> reject(
             @PathVariable Long id,
             @Valid @RequestBody ReviewRequest request) {
@@ -49,7 +49,7 @@ public class ReviewController {
     }
 
     @PostMapping("/{id}/request-correction")
-    @PreAuthorize("hasRole('ROLE_OFFICER')")
+    @PreAuthorize("hasAuthority('ROLE_OFFICER')")
     public ResponseEntity<ApiResponse<ReviewResponse>> requestCorrection(
             @PathVariable Long id,
             @Valid @RequestBody ReviewRequest request) {
@@ -59,7 +59,7 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}/reviews")
-    @PreAuthorize("hasRole('ROLE_OFFICER')")
+    @PreAuthorize("hasAuthority('ROLE_OFFICER')")
     public ResponseEntity<ApiResponse<List<ReviewResponse>>> getReviews(@PathVariable Long id) {
         List<ReviewResponse> response = reviewService.getReviewsByApplicationId(id);
         return ResponseEntity.ok(ApiResponse.success("Reviews retrieved", response));
