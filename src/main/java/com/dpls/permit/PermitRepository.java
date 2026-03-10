@@ -1,6 +1,5 @@
-package com.dpls.repository;
+package com.dpls.permit;
 
-import com.dpls.permit.Permit;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

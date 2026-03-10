@@ -1,11 +1,11 @@
 package com.dpls.review;
 
 import com.dpls.application.Application;
-import com.dpls.repository.ApplicationRepository;
+import com.dpls.application.ApplicationRepository;
+import com.dpls.application.ApplicationResponse;
 import com.dpls.application.ApplicationService;
 import com.dpls.common.enums.ApplicationStatus;
 import com.dpls.common.enums.ReviewDecision;
-import com.dpls.repository.ApplicationReviewRepository;
 import com.dpls.user.User;
 import com.dpls.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -61,8 +61,24 @@ public class ReviewService {
                 .toList();
     }
 
-    public List<Application> getSubmittedApplications() {
-        return applicationRepository.findByStatus(ApplicationStatus.SUBMITTED);
+    public List<ApplicationResponse> getSubmittedApplications() {
+        return applicationRepository.findByStatus(ApplicationStatus.SUBMITTED)
+                .stream()
+                .map(this::mapApplicationToResponse)
+                .toList();
+    }
+
+    private ApplicationResponse mapApplicationToResponse(Application application) {
+        return ApplicationResponse.builder()
+                .id(application.getId())
+                .applicantName(application.getApplicant().getName())
+                .applicantEmail(application.getApplicant().getEmail())
+                .permitTypeName(application.getPermitType().getName())
+                .status(application.getStatus())
+                .notes(application.getNotes())
+                .submittedAt(application.getSubmittedAt())
+                .updatedAt(application.getUpdatedAt())
+                .build();
     }
 
     private ReviewResponse mapToResponse(ApplicationReview review) {

@@ -1,6 +1,5 @@
-package com.dpls.repository;
+package com.dpls.department;
 
-import com.dpls.department.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {

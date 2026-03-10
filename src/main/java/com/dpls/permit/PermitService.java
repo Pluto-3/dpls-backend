@@ -1,10 +1,9 @@
 package com.dpls.permit;
 
 import com.dpls.application.Application;
-import com.dpls.repository.ApplicationRepository;
+import com.dpls.application.ApplicationRepository;
 import com.dpls.application.ApplicationService;
 import com.dpls.common.enums.ApplicationStatus;
-import com.dpls.repository.PermitRepository;
 import com.dpls.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

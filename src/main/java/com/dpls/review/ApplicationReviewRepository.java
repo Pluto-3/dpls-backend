@@ -1,6 +1,5 @@
-package com.dpls.repository;
+package com.dpls.review;
 
-import com.dpls.review.ApplicationReview;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -2,8 +2,7 @@ package com.dpls.permittype;
 
 
 import com.dpls.department.Department;
-import com.dpls.repository.DepartmentRepository;
-import com.dpls.repository.PermitTypeRepository;
+import com.dpls.department.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

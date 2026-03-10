@@ -2,8 +2,7 @@ package com.dpls.application;
 
 import com.dpls.common.enums.ApplicationStatus;
 import com.dpls.permittype.PermitType;
-import com.dpls.repository.ApplicationRepository;
-import com.dpls.repository.PermitTypeRepository;
+import com.dpls.permittype.PermitTypeRepository;
 import com.dpls.user.User;
 import com.dpls.user.UserService;
 import org.springframework.stereotype.Service;
