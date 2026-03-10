@@ -1,6 +1,5 @@
-package com.dpls.repository;
+package com.dpls.application;
 
-import com.dpls.application.Application;
 import com.dpls.common.enums.ApplicationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 

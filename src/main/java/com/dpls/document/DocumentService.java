@@ -3,7 +3,6 @@ package com.dpls.document;
 import com.dpls.application.Application;
 import com.dpls.application.ApplicationService;
 import com.dpls.common.enums.ApplicationStatus;
-import com.dpls.repository.ApplicationDocumentRepository;
 import com.dpls.user.User;
 import com.dpls.user.UserService;
 import lombok.RequiredArgsConstructor;

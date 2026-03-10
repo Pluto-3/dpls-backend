@@ -1,10 +1,9 @@
 package com.dpls.review;
 
-import com.dpls.application.Application;
 import com.dpls.application.ApplicationResponse;
 import com.dpls.application.ApplicationService;
+import com.dpls.common.enums.ReviewDecision;
 import com.dpls.common.response.ApiResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,19 +20,19 @@ public class ReviewController {
     private final ApplicationService applicationService;
 
     @GetMapping("/submitted")
-    @PreAuthorize("hasRole('ROLE_OFFICER')")
-    public ResponseEntity<ApiResponse<List<Application>>> getSubmitted() {
-        List<Application> applications = reviewService.getSubmittedApplications();
+    @PreAuthorize("hasAuthority('ROLE_OFFICER')")
+    public ResponseEntity<ApiResponse<List<ApplicationResponse>>> getSubmitted() {
+        List<ApplicationResponse> applications = reviewService.getSubmittedApplications();
         return ResponseEntity.ok(ApiResponse.success("Submitted applications retrieved", applications));
     }
 
     @PostMapping("/{id}/approve")
-    @PreAuthorize("hasRole('ROLE_OFFICER')")
+    @PreAuthorize("hasAuthority('ROLE_OFFICER')")
     public ResponseEntity<ApiResponse<ReviewResponse>> approve(
             @PathVariable Long id,
             @RequestBody(required = false) ReviewRequest request) {
         if (request == null) request = new ReviewRequest();
-        request.setDecision(com.dpls.common.enums.ReviewDecision.APPROVED);
+        request.setDecision(ReviewDecision.APPROVED);
         ReviewResponse response = reviewService.review(id, request);
         return ResponseEntity.ok(ApiResponse.success("Application approved", response));
     }
@@ -42,8 +41,9 @@ public class ReviewController {
     @PreAuthorize("hasAuthority('ROLE_OFFICER')")
     public ResponseEntity<ApiResponse<ReviewResponse>> reject(
             @PathVariable Long id,
-            @Valid @RequestBody ReviewRequest request) {
-        request.setDecision(com.dpls.common.enums.ReviewDecision.REJECTED);
+            @RequestBody(required = false) ReviewRequest request) {
+        if (request == null) request = new ReviewRequest();
+        request.setDecision(ReviewDecision.REJECTED);
         ReviewResponse response = reviewService.review(id, request);
         return ResponseEntity.ok(ApiResponse.success("Application rejected", response));
     }
@@ -52,8 +52,9 @@ public class ReviewController {
     @PreAuthorize("hasAuthority('ROLE_OFFICER')")
     public ResponseEntity<ApiResponse<ReviewResponse>> requestCorrection(
             @PathVariable Long id,
-            @Valid @RequestBody ReviewRequest request) {
-        request.setDecision(com.dpls.common.enums.ReviewDecision.REQUEST_CORRECTION);
+            @RequestBody(required = false) ReviewRequest request) {
+        if (request == null) request = new ReviewRequest();
+        request.setDecision(ReviewDecision.REQUEST_CORRECTION);
         ReviewResponse response = reviewService.review(id, request);
         return ResponseEntity.ok(ApiResponse.success("Correction requested", response));
     }

@@ -1,6 +1,6 @@
 package com.dpls.auth;
 
-import com.dpls.repository.UserRepository;
+import com.dpls.user.UserRepository;
 import com.dpls.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

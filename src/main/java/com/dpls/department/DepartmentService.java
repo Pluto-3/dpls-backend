@@ -1,6 +1,5 @@
 package com.dpls.department;
 
-import com.dpls.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

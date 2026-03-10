@@ -1,6 +1,5 @@
-package com.dpls.repository;
+package com.dpls.document;
 
-import com.dpls.document.ApplicationDocument;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
