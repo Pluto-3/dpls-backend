@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# Dir
+uploads/
+
+# Environment
+application.yml
+application-local.yml
