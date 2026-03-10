@@ -3,7 +3,9 @@ package com.dpls.permit;
 import com.dpls.application.Application;
 import com.dpls.application.ApplicationRepository;
 import com.dpls.application.ApplicationService;
+import com.dpls.common.audit.AuditLogService;
 import com.dpls.common.enums.ApplicationStatus;
+import com.dpls.user.User;
 import com.dpls.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,11 @@ public class PermitService {
     private final ApplicationService applicationService;
     private final ApplicationRepository applicationRepository;
     private final UserService userService;
+    private final AuditLogService auditLogService;
 
     public PermitResponse issue(Long applicationId) {
         Application application = applicationService.getApplicationById(applicationId);
+        User officer = userService.getCurrentUser();
 
         if (application.getStatus() != ApplicationStatus.APPROVED) {
             throw new RuntimeException("Only APPROVED applications can be issued a permit");
@@ -45,6 +49,9 @@ public class PermitService {
 
         application.setStatus(ApplicationStatus.PERMIT_ISSUED);
         applicationRepository.save(application);
+
+        auditLogService.log(application, officer, "PERMIT_ISSUED",
+                "Permit issued with number " + permit.getPermitNumber());
 
         return mapToResponse(permit);
     }

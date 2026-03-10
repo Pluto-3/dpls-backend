@@ -4,6 +4,7 @@ import com.dpls.application.Application;
 import com.dpls.application.ApplicationRepository;
 import com.dpls.application.ApplicationResponse;
 import com.dpls.application.ApplicationService;
+import com.dpls.common.audit.AuditLogService;
 import com.dpls.common.enums.ApplicationStatus;
 import com.dpls.common.enums.ReviewDecision;
 import com.dpls.user.User;
@@ -21,6 +22,7 @@ public class ReviewService {
     private final ApplicationRepository applicationRepository;
     private final ApplicationService applicationService;
     private final UserService userService;
+    private final AuditLogService auditLogService;
 
     public ReviewResponse review(Long applicationId, ReviewRequest request) {
         User reviewer = userService.getCurrentUser();
@@ -31,13 +33,15 @@ public class ReviewService {
             throw new RuntimeException("Only SUBMITTED or UNDER_REVIEW applications can be reviewed");
         }
 
-        // Update application status based on decision
         if (request.getDecision() == ReviewDecision.APPROVED) {
             application.setStatus(ApplicationStatus.APPROVED);
+            auditLogService.log(application, reviewer, "APPLICATION_APPROVED", request.getComments());
         } else if (request.getDecision() == ReviewDecision.REJECTED) {
             application.setStatus(ApplicationStatus.REJECTED);
+            auditLogService.log(application, reviewer, "APPLICATION_REJECTED", request.getComments());
         } else if (request.getDecision() == ReviewDecision.REQUEST_CORRECTION) {
             application.setStatus(ApplicationStatus.NEEDS_CORRECTION);
+            auditLogService.log(application, reviewer, "CORRECTION_REQUESTED", request.getComments());
         }
 
         application.setNotes(request.getComments());
@@ -68,6 +72,17 @@ public class ReviewService {
                 .toList();
     }
 
+    private ReviewResponse mapToResponse(ApplicationReview review) {
+        return ReviewResponse.builder()
+                .id(review.getId())
+                .applicationId(review.getApplication().getId())
+                .reviewerName(review.getReviewer().getName())
+                .decision(review.getDecision())
+                .comments(review.getComments())
+                .reviewedAt(review.getReviewedAt())
+                .build();
+    }
+
     private ApplicationResponse mapApplicationToResponse(Application application) {
         return ApplicationResponse.builder()
                 .id(application.getId())
@@ -78,17 +93,6 @@ public class ReviewService {
                 .notes(application.getNotes())
                 .submittedAt(application.getSubmittedAt())
                 .updatedAt(application.getUpdatedAt())
-                .build();
-    }
-
-    private ReviewResponse mapToResponse(ApplicationReview review) {
-        return ReviewResponse.builder()
-                .id(review.getId())
-                .applicationId(review.getApplication().getId())
-                .reviewerName(review.getReviewer().getName())
-                .decision(review.getDecision())
-                .comments(review.getComments())
-                .reviewedAt(review.getReviewedAt())
                 .build();
     }
 }
