@@ -11,23 +11,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 @EnableScheduling
 public class DplsApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(DplsApplication.class, args);
 	}
 
-	@Value("${frontend.url:http://localhost:5173}")
-	private String frontendUrl;
-
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+	public WebMvcConfigurer corsConfigurer(
+			@Value("${frontend.url:http://localhost:5173}") String frontendUrl) {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/**")
-						.allowedOrigins(
-								"http://localhost:5173",
-								frontendUrl
-						)
+						.allowedOrigins("http://localhost:5173", frontendUrl)
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
 						.allowedHeaders("*");
 			}
