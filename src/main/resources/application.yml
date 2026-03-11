@@ -1,27 +1,29 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/dpls_db
-    username: postgres
-    password: plutoski12
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/dpls_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:plutoski12}
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
 
-server:
-  port: 8080
-
 jwt:
-  secret: my-very-long-secret-key-that-is-at-least-256-bits-long
+  secret: ${JWT_SECRET:your-local-secret-key-that-is-long-enough-for-hs256-algorithm}
   expiration: 86400000
 
 file:
   upload-dir: uploads
+
+server:
+  port: ${PORT:8080}
+
+frontend:
+  url: ${FRONTEND_URL:http://localhost:5173}
