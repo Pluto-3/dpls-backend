@@ -17,13 +17,12 @@ public class DplsApplication {
 	}
 
 	@Bean
-	public WebMvcConfigurer corsConfigurer(
-			@Value("${frontend.url:http://localhost:5173}") String frontendUrl) {
+	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/**")
-						.allowedOrigins("http://localhost:5173", frontendUrl)
+						.allowedOriginPatterns("*")
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
 						.allowedHeaders("*");
 			}
