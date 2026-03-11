@@ -81,6 +81,11 @@ public class ApplicationService {
                 .orElseThrow(() -> new RuntimeException("Application not found"));
     }
 
+    public ApplicationResponse getByIdForOfficer(Long id) {
+        Application application = getApplicationById(id);
+        return mapToResponse(application);
+    }
+
     private ApplicationResponse mapToResponse(Application application) {
         return ApplicationResponse.builder()
                 .id(application.getId())

@@ -87,4 +87,11 @@ public class DocumentService {
                 .uploadedAt(document.getUploadedAt())
                 .build();
     }
+
+    public List<DocumentResponse> getByApplicationIdForOfficer(Long applicationId) {
+        return documentRepository.findByApplicationId(applicationId)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 }

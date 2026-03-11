@@ -44,4 +44,11 @@ public class ApplicationController {
         List<ApplicationResponse> response = applicationService.getMyApplications();
         return ResponseEntity.ok(ApiResponse.success("Applications retrieved", response));
     }
+
+    @GetMapping("/officer/{id}")
+    @PreAuthorize("hasAuthority('ROLE_OFFICER')")
+    public ResponseEntity<ApiResponse<ApplicationResponse>> getByIdForOfficer(@PathVariable Long id) {
+        ApplicationResponse response = applicationService.getByIdForOfficer(id);
+        return ResponseEntity.ok(ApiResponse.success("Application retrieved", response));
+    }
 }
