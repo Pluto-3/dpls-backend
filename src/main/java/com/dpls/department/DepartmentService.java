@@ -11,15 +11,27 @@ public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
 
-    public Department create(String name, String description) {
+    public DepartmentResponse create(DepartmentRequest request) {
         Department department = Department.builder()
-                .name(name)
-                .description(description)
+                .name(request.getName())
+                .description(request.getDescription())
                 .build();
-        return departmentRepository.save(department);
+        departmentRepository.save(department);
+        return mapToResponse(department);
     }
 
-    public List<Department> getAll() {
-        return departmentRepository.findAll();
+    public List<DepartmentResponse> getAll() {
+        return departmentRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    private DepartmentResponse mapToResponse(Department department) {
+        return DepartmentResponse.builder()
+                .id(department.getId())
+                .name(department.getName())
+                .description(department.getDescription())
+                .build();
     }
 }

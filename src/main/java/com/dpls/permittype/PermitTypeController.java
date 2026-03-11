@@ -17,7 +17,7 @@ public class PermitTypeController {
     private final PermitTypeService permitTypeService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<PermitTypeResponse>> create(
             @Valid @RequestBody PermitTypeRequest request) {
         PermitTypeResponse response = permitTypeService.create(request);
