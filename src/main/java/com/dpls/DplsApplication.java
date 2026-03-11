@@ -26,7 +26,7 @@ public class DplsApplication {
 				registry.addMapping("/api/**")
 						.allowedOrigins(
 								"http://localhost:5173",
-								"${FRONTEND_URL}"
+								frontendUrl
 						)
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
 						.allowedHeaders("*");
