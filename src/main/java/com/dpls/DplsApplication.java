@@ -23,7 +23,10 @@ public class DplsApplication {
 				registry.addMapping("/api/**")
 						.allowedOriginPatterns("*")
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
-						.allowedHeaders("*");
+						.allowedHeaders("*")
+						.exposedHeaders("Authorization")
+						.allowCredentials(false)
+						.maxAge(3600);
 			}
 		};
 	}
