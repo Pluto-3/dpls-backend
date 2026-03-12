@@ -34,11 +34,19 @@ public class AuditLogService {
     private AuditLogResponse mapToResponse(AuditLog log) {
         return AuditLogResponse.builder()
                 .id(log.getId())
+                .applicationId(log.getApplication().getId())
                 .actorName(log.getActor().getName())
                 .actorRole(log.getActor().getRole().name())
                 .action(log.getAction())
                 .notes(log.getNotes())
                 .timestamp(log.getTimestamp())
                 .build();
+    }
+
+    public List<AuditLogResponse> getAllLogs() {
+        return auditLogRepository.findAllByOrderByTimestampDesc()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 }

@@ -22,4 +22,11 @@ public class AuditLogController {
         List<AuditLogResponse> timeline = auditLogService.getTimeline(id);
         return ResponseEntity.ok(ApiResponse.success("Timeline retrieved", timeline));
     }
+
+    @GetMapping("/audit-logs")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<List<AuditLogResponse>>> getAllLogs() {
+        List<AuditLogResponse> logs = auditLogService.getAllLogs();
+        return ResponseEntity.ok(ApiResponse.success("Audit logs retrieved", logs));
+    }
 }
